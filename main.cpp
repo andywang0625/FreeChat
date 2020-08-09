@@ -1,7 +1,7 @@
 /*
  * @Author: Kanade
  * @Date: 2020-08-07 18:44:53
- * @LastEditTime: 2020-08-07 23:46:44
+ * @LastEditTime: 2020-08-08 23:18:28
  * @Description: 
  */
 #include"headers.h"
@@ -70,6 +70,7 @@ int main(int argc, char * argv[]){
                 std::string mes;
                 if(read(*current_socket, &mes_raw, 100)){
                     mes = (std::string)mes_raw;
+                    replace(mes.begin(), mes.end(), '\n', '\0');
                     std::cout<<mes<<std::endl;
                     if(mes == "!quit\n"){
                         std::cout<<"Connection Closed"<<std::endl;
