@@ -1,10 +1,22 @@
 /*
  * @Author: Kanade
  * @Date: 2020-08-07 18:44:53
- * @LastEditTime: 2020-08-08 23:18:28
+ * @LastEditTime: 2020-08-09 22:52:32
  * @Description: 
  */
 #include"headers.h"
+
+bool invalidChar (char c){
+    if(c=='\n'||c=='\0')
+        return true;
+    else
+        return false;
+}
+
+void stripUnicode(std::string &str)
+{
+    str.erase(remove_if(str.begin(),str.end(), invalidChar), str.end());
+}
 
 int main(int argc, char * argv[]){
 
@@ -55,26 +67,24 @@ int main(int argc, char * argv[]){
         }
 
         FD_ZERO(&fdset);
-        //for(std::list<int>::iterator current_socket = connections.begin(); current_socket != connections.end(); ++current_socket){
         for(auto current_socket : connections){
             FD_SET(current_socket, &fdset);
         }
 
         select(connections.back()+1, &fdset, NULL, NULL, &timeout);
 
-
-        //for(std::list<int>::iterator current_socket = connections.begin(); current_socket != connections.end(); ++current_socket){
+        char buf[255];
         for(auto current_socket = connections.begin(); current_socket != connections.end(); current_socket++){
             if(FD_ISSET(*current_socket, &fdset)){
-                char mes_raw[100];
+                memset(buf, 0, sizeof(buf));
                 std::string mes;
-                if(read(*current_socket, &mes_raw, 100)){
-                    mes = (std::string)mes_raw;
-                    replace(mes.begin(), mes.end(), '\n', '\0');
-                    std::cout<<mes<<std::endl;
-                    if(mes == "!quit\n"){
+                if(recv(*current_socket, buf, sizeof(buf), 0)){
+                    mes = (std::string)buf;
+                    stripUnicode(mes);
+                    std::cout<<mes<<" - Length:"<<mes.length()<<std::endl;
+                    if(mes == "!quit"){
                         std::cout<<"Connection Closed"<<std::endl;
-                        write(*current_socket, "Connection Closed", sizeof("Connection Closed"));
+                        write(*current_socket, "Bye! (Connection Closed)", sizeof("Connection Closed"));
                         connections.erase(current_socket);
                         break;
                     }
