@@ -1,13 +1,38 @@
 /*
  * @Author: Kanade
  * @Date: 2020-08-09 23:03:20
- * @LastEditTime: 2020-08-10 15:27:51
+ * @LastEditTime: 2020-08-11 18:45:41
  * @Description: 
  */
 #include"../headers.h"
 
 #ifndef SOCKETSERVER_H
 #define SOCKETSERVER_H
+
+struct SocketError : public std::exception{
+    const char * what () const throw(){
+        return "Socket Exception";
+    }
+};
+
+struct BindingError : public std::exception{
+    const char * what () const throw(){
+        return "Binding Exception";
+    }
+};
+
+struct ListeningError : public std::exception{
+    const char * what () const throw(){
+        return "Listening Exception";
+    }
+};
+
+struct LoopRuntimeError : public std::exception{
+    const char * what () const throw(){
+        return "Runtime Exception";
+    }
+};
+
 class SocketServer{
     public:
         SocketServer(int, std::list<std::string>&, std::list<int>&);

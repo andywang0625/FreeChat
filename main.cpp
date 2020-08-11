@@ -1,18 +1,21 @@
 /*
  * @Author: Kanade
  * @Date: 2020-08-07 18:44:53
- * @LastEditTime: 2020-08-10 17:20:32
+ * @LastEditTime: 2020-08-11 18:23:39
  * @Description: 
  */
 #include"headers.h"
 #include"Core/SocketServer.h"
 #include"Miscellaneous/DateTime.h"
+#include"Miscellaneous/Log.h"
 
 std::mutex g_mutex;
 
 int main(int argc, char * argv[]){
+    Log *log;
 
-    std::cout<<"FreeChat Server is Initiating"<<std::endl;
+    log = new Log("FreeChat Server is Initiating", general, "Kernel", 1, 1);
+    delete log;
 
     std::list<std::string> messages;
     std::list<int> connections;
@@ -22,6 +25,7 @@ int main(int argc, char * argv[]){
     socketServerThread.detach();
 
     usleep(500);
+
 
     string command = "";
     while(1){
@@ -41,8 +45,15 @@ int main(int argc, char * argv[]){
                 usleep(500);
                 std::cout<<"The server restarted..."<<std::endl;
             }
+        }else if(command == "/testlog"){
+            log = new Log("test log", general, "Console", 1, 1);
+            delete log;
+            log = new Log("test warning", warning, "Console", 1, 1);
+            delete log;
+            log = new Log("test error", error, "Console", 1, 1);
+            delete log;
         }else{
-            std::cout<<"Command Not Found"<<std::endl;
+            log = new Log("Command Not Found", error, "Console", 1, 0);
         }
     }
 }

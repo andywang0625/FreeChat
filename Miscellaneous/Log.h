@@ -1,7 +1,7 @@
 /*
  * @Author: Kanade
  * @Date: 2020-08-07 19:38:17
- * @LastEditTime: 2020-08-10 17:38:05
+ * @LastEditTime: 2020-08-11 17:48:46
  * @Description: 
  */
 #include<string>
@@ -16,7 +16,9 @@ enum LogType{
 };
 class Log{
     public:
-    Log(string, LogType, string);
+    Log(string, LogType, string, bool, bool);
+    static void print(string, LogType, string);
+    static void save(string, LogType, string);
     bool save();
     private:
     string _message;

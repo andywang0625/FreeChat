@@ -1,7 +1,7 @@
 /*
  * @Author: Kanade
  * @Date: 2020-08-07 19:46:17
- * @LastEditTime: 2020-08-10 15:11:06
+ * @LastEditTime: 2020-08-11 18:06:11
  * @Description: 
  */
 #include "DateTime.h"
@@ -21,9 +21,9 @@ DateTime::DateTime(){
 }
 
 string DateTime::toString(){
-    return to_string(this->_year)+" "+
-    this->_month+" "+
-    to_string(this->_hour)+" "+
-    to_string(this->_minute)+" "+
+    return this->_month+" "+to_string(this->_day)+"-"+
+    to_string(this->_year)+" "+
+    to_string(this->_hour)+":"+
+    to_string(this->_minute)+":"+
     to_string(this->_second);
 }
