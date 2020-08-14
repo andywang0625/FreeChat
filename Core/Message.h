@@ -14,7 +14,7 @@
 class Message{
     public:
         Message(string, string, DateTime);
-        ~Message();
+        //~Message();
         string toString();
     private:
         string _messageBody;

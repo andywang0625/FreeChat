@@ -10,7 +10,7 @@ using namespace std;
 
 Message::Message(string message, string sender, DateTime time){
     _messageBody = message;
-    _messageSender = message;
+    _messageSender = sender;
     _time = time;
 }
 
@@ -19,8 +19,8 @@ string Message::toString(){
     return str;
 }
 
-Message::~Message(){
-    Log* logHelper;
-    logHelper = new Log("A Message Has Been Destoryed", general, "Message", 1, 0);
-    delete logHelper;
-}
+// Message::~Message(){
+//     Log* logHelper;
+//     logHelper = new Log("A Message Has Been Destoryed", general, "Message", 1, 0);
+//     delete logHelper;
+// }
