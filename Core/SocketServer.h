@@ -1,10 +1,11 @@
 /*
  * @Author: Kanade
  * @Date: 2020-08-09 23:03:20
- * @LastEditTime: 2020-08-11 18:45:41
+ * @LastEditTime: 2020-08-12 17:38:06
  * @Description: 
  */
 #include"../headers.h"
+#include"Message.h"
 
 #ifndef SOCKETSERVER_H
 #define SOCKETSERVER_H
@@ -35,7 +36,7 @@ struct LoopRuntimeError : public std::exception{
 
 class SocketServer{
     public:
-        SocketServer(int, std::list<std::string>&, std::list<int>&);
+        SocketServer(int, std::list<Message>&, std::list<int>&);
         bool startLoop();
         bool getStatus();
         bool stop();
@@ -50,7 +51,7 @@ class SocketServer{
         };
     private:
         bool _stop;
-        std::list<std::string>& _messages;
+        std::list<Message>& _messages;
         std::list<int>& _connections;
         int _port;
         int _server_fd;

@@ -1,16 +1,16 @@
 /*
  * @Author: Kanade
  * @Date: 2020-08-09 23:03:28
- * @LastEditTime: 2020-08-11 19:28:44
+ * @LastEditTime: 2020-08-12 17:37:28
  * @Description: 
  */
 #include"SocketServer.h"
 #include"../headers.h"
+#include"Message.h"
 #include"../Miscellaneous/Log.h"
-
 Log* logHelper;
 
-SocketServer::SocketServer(int port, std::list<std::string> & messages, std::list<int> & connections) :_connections(connections), _messages(messages){
+SocketServer::SocketServer(int port, std::list<Message> & messages, std::list<int> & connections) :_connections(connections), _messages(messages){
     try{
         _stop = false;
         _port = port;
@@ -94,10 +94,11 @@ bool SocketServer::startLoop(){
                             break;
                         }else if(mes == "!m"){
                             write(*current_socket, "HISTORY MESSAGES====================\n", sizeof("HISTORY MESSAGES====================\n"));
-                            for(string currentMessage : _messages){
-                                currentMessage += '\n';
-                                char result[currentMessage.length()+1];
-                                strcpy(result, currentMessage.c_str());
+                            for(Message currentMessage : _messages){
+                                string str = currentMessage.toString();
+                                str += '\n';
+                                char result[str.length()+1];
+                                strcpy(result, str.c_str());
                                 write(*current_socket, result, sizeof(result));
                             }
                             write(*current_socket, "END MESSAGES========================\n", sizeof("END MESSAGES========================\n"));
@@ -108,7 +109,7 @@ bool SocketServer::startLoop(){
                                 char str[INET_ADDRSTRLEN];
                                 inet_ntop(AF_INET, &IpAddr, str, INET_ADDRSTRLEN);
                                 logHelper = new Log("New Message Saved", general, str, 1, 1);
-                                _messages.push_back(mes);
+                                _messages.push_back(Message(mes, str, DateTime()));
                             }
                         }
                     }

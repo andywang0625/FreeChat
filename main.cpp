@@ -1,11 +1,12 @@
 /*
  * @Author: Kanade
  * @Date: 2020-08-07 18:44:53
- * @LastEditTime: 2020-08-11 18:23:39
+ * @LastEditTime: 2020-08-12 17:40:24
  * @Description: 
  */
 #include"headers.h"
 #include"Core/SocketServer.h"
+#include"Core/Message.h"
 #include"Miscellaneous/DateTime.h"
 #include"Miscellaneous/Log.h"
 
@@ -17,7 +18,7 @@ int main(int argc, char * argv[]){
     log = new Log("FreeChat Server is Initiating", general, "Kernel", 1, 1);
     delete log;
 
-    std::list<std::string> messages;
+    std::list<Message> messages;
     std::list<int> connections;
 
     SocketServer server(atoi(argv[1]), messages, connections);
